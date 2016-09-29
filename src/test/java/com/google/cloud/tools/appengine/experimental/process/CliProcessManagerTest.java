@@ -55,6 +55,7 @@ public class CliProcessManagerTest {
     Future<String> future = createTestProcess("echo 'stdout'; echo 'stderr' 1>&2", outputHandler);
 
     String result = future.get();
+    Thread.sleep(1000); // wait for stderr is complete
 
     Assert.assertEquals("stdout\n", result);
     List<String> lines = outputHandler.getLines();
@@ -73,6 +74,7 @@ public class CliProcessManagerTest {
     exception.expect(ExecutionException.class);
     exception.expectMessage("Process failed with exit code : 1");
     future.get();
+    Thread.sleep(1000); // wait for stderr is complete
 
     List<String> lines = outputHandler.getLines();
     Assert.assertEquals(1, lines.size());
