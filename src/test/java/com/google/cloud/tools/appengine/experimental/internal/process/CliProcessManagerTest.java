@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package com.google.cloud.tools.appengine.experimental.process;
+package com.google.cloud.tools.appengine.experimental.internal.process;
 
 import static org.junit.Assume.assumeTrue;
 
 import com.google.cloud.tools.appengine.experimental.OutputHandler;
-import com.google.cloud.tools.appengine.experimental.internal.process.CliProcessManager;
-import com.google.cloud.tools.appengine.experimental.process.io.CollectingOutputHandler;
-import com.google.cloud.tools.appengine.experimental.process.io.DumbConverter;
+import com.google.cloud.tools.appengine.experimental.internal.process.io.CollectingOutputHandler;
+import com.google.cloud.tools.appengine.experimental.internal.process.io.DumbConverter;
 
 import org.junit.Assert;
 import org.junit.Rule;
@@ -55,7 +54,6 @@ public class CliProcessManagerTest {
     Future<String> future = createTestProcess("echo 'stdout'; echo 'stderr' 1>&2", outputHandler);
 
     String result = future.get();
-    Thread.sleep(1000); // wait for stderr is complete
 
     Assert.assertEquals("stdout\n", result);
     List<String> lines = outputHandler.getLines();
@@ -74,7 +72,6 @@ public class CliProcessManagerTest {
     exception.expect(ExecutionException.class);
     exception.expectMessage("Process failed with exit code : 1");
     future.get();
-    Thread.sleep(1000); // wait for stderr is complete
 
     List<String> lines = outputHandler.getLines();
     Assert.assertEquals(1, lines.size());
