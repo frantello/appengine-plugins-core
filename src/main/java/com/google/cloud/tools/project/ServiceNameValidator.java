@@ -35,9 +35,7 @@ public class ServiceNameValidator {
       return false;
     } else {
       for (char c : name.toCharArray()) {
-        if (Character.isAlphabetic(c)) {
-          continue;
-        } else if (Character.isDigit(c)) {
+        if (Character.isLetterOrDigit(c)) {
           continue;
         } else if (c == '-') {
           continue;
