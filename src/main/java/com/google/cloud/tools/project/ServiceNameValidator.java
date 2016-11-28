@@ -16,12 +16,19 @@
 
 package com.google.cloud.tools.project;
 
+import com.google.common.annotations.Beta;
+
 /**
  * Each service and each version must have a name. A name can contain numbers, letters, and hyphens.
  * It cannot be longer than 63 characters and cannot start or end with a hyphen."
  */
+@Beta
 public class ServiceNameValidator {
 
+  /**
+   * @param name App Engine service (a.k.a. module) name
+   * @return true if and only if the name meets the constraints for servcie names; false otherwise
+   */
   public static boolean validate(String name) {
     if (name == null) {
       return false;
