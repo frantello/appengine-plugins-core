@@ -36,7 +36,7 @@ import java.util.Set;
 public class CloudSdkAppEngineFlexibleStaging implements AppEngineFlexibleStaging {
   protected static final Set<String> APP_ENGINE_CONFIG_FILES_WHITELIST = ImmutableSet.of("app.yaml",
       "cron.yaml", "queue.yaml", "dispatch.yaml", "index.yaml", "dos.yaml", "swagger.json",
-      "swagger.yaml");
+      "swagger.yaml", "openapi.json", "openapi.yaml");
 
   /**
    * Stages a Java JAR/WAR Managed VMs application to be deployed.
