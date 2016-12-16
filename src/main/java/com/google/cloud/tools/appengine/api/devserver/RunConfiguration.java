@@ -54,6 +54,8 @@ public interface RunConfiguration {
   List<String> getJvmFlags();
 
   /**
+   * Return a list of environment variable strings in the form name=value.
+   * 
    * @return the environment variables in the form name=value
    */
   List<String> getEnvironmentVariables();
