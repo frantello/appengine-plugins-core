@@ -23,7 +23,6 @@ import com.google.cloud.tools.appengine.api.devserver.StopConfiguration;
 import com.google.cloud.tools.appengine.cloudsdk.internal.args.DevAppServerArgs;
 import com.google.cloud.tools.appengine.cloudsdk.internal.process.ProcessRunnerException;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
@@ -73,7 +72,7 @@ public class CloudSdkAppEngineDevServer implements AppEngineDevServer {
     List<String> environment = config.getEnvironmentVariables();
     if (environment != null) {
       for (String nameValue : environment) {
-        String[] pair = nameValue.split("\\=");
+        String[] pair = nameValue.split("=");
         environmentVariables.put(pair[0], pair[1]);
       }
     }
