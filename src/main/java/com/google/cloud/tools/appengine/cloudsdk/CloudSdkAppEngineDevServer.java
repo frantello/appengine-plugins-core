@@ -23,6 +23,7 @@ import com.google.cloud.tools.appengine.api.devserver.StopConfiguration;
 import com.google.cloud.tools.appengine.cloudsdk.internal.args.DevAppServerArgs;
 import com.google.cloud.tools.appengine.cloudsdk.internal.process.ProcessRunnerException;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
@@ -50,7 +51,7 @@ public class CloudSdkAppEngineDevServer implements AppEngineDevServer {
   }
 
   /**
-   * Starts the local development server, synchronous or asynchronously.
+   * Starts the local development server, synchronously or asynchronously.
    */
   @Override
   public void run(RunConfiguration config) throws AppEngineException {
@@ -64,11 +65,19 @@ public class CloudSdkAppEngineDevServer implements AppEngineDevServer {
       arguments.add(appYaml.toPath().toString());
     }
 
-    Map<String,String> env = Maps.newHashMap();
+    Map<String,String> environmentVariables = Maps.newHashMap();
     if (!Strings.isNullOrEmpty(config.getJavaHomeDir())) {
-      env.put("JAVA_HOME", config.getJavaHomeDir());
+      environmentVariables.put("JAVA_HOME", config.getJavaHomeDir());
     }
 
+    List<String> environment = config.getEnvironmentVariables();
+    if (environment != null) {
+      for (String nameValue : environment) {
+        String[] pair = nameValue.split("\\=");
+        environmentVariables.put(pair[0], pair[1]);
+      }
+    }
+    
     arguments.addAll(DevAppServerArgs.get("host", config.getHost()));
     arguments.addAll(DevAppServerArgs.get("port", config.getPort()));
     arguments.addAll(DevAppServerArgs.get("admin_host", config.getAdminHost()));
@@ -96,7 +105,7 @@ public class CloudSdkAppEngineDevServer implements AppEngineDevServer {
         .addAll(DevAppServerArgs.get("default_gcs_bucket_name", config.getDefaultGcsBucketName()));
 
     try {
-      sdk.runDevAppServerCommand(arguments, env);
+      sdk.runDevAppServerCommand(arguments, environmentVariables);
     } catch (ProcessRunnerException e) {
       throw new AppEngineException(e);
     }

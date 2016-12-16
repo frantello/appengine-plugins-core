@@ -47,6 +47,7 @@ public class DefaultRunConfiguration implements RunConfiguration {
   private Boolean skipSdkUpdateCheck;
   private String defaultGcsBucketName;
   private String javaHomeDir;
+  private List<String> environment;
 
   @Override
   public List<File> getAppYamls() {
@@ -253,5 +254,14 @@ public class DefaultRunConfiguration implements RunConfiguration {
 
   public void setJavaHomeDir(String javaHomeDir) {
     this.javaHomeDir = javaHomeDir;
+  }
+
+  @Override
+  public List<String> getEnvironmentVariables() {
+    return environment;
+  }
+ 
+  public void setEnvironmentVariables(List<String> environment) {
+    this.environment = environment;
   }
 }

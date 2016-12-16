@@ -53,6 +53,11 @@ public interface RunConfiguration {
 
   List<String> getJvmFlags();
 
+  /**
+   * @return the environment variables in the form name=value
+   */
+  List<String> getEnvironmentVariables();
+
   String getCustomEntrypoint();
 
   String getRuntime();
