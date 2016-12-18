@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class DefaultRunConfigurationTest {
-  
+
   private DefaultRunConfiguration configuration = new DefaultRunConfiguration();
   
   @Test 

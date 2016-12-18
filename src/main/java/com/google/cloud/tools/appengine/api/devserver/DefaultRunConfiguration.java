@@ -274,8 +274,7 @@ public class DefaultRunConfiguration implements RunConfiguration {
     for (String key : environment.keySet()) {
       if (key.indexOf('\0') > -1) {
         throw new IllegalArgumentException("Environment variable name " + key + " contains a NUL");
-      }
-      if (key.indexOf('\0') > -1 || key.indexOf('=') > -1) {
+      } else if (key.indexOf('=') > -1) {
         throw new IllegalArgumentException("Environment variable name "
             + key + " must not contain =.");
       }
