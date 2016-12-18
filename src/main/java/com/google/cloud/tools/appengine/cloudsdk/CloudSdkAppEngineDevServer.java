@@ -24,7 +24,6 @@ import com.google.cloud.tools.appengine.cloudsdk.internal.args.DevAppServerArgs;
 import com.google.cloud.tools.appengine.cloudsdk.internal.process.ProcessRunnerException;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 import java.io.File;
@@ -40,13 +39,12 @@ import java.util.Map;
  */
 public class CloudSdkAppEngineDevServer implements AppEngineDevServer {
 
-  private CloudSdk sdk;
+  private final CloudSdk sdk;
 
   private static final String DEFAULT_ADMIN_HOST = "localhost";
   private static final int DEFAULT_ADMIN_PORT = 8000;
 
-  public CloudSdkAppEngineDevServer(
-      CloudSdk sdk) {
+  public CloudSdkAppEngineDevServer(CloudSdk sdk) {
     this.sdk = sdk;
   }
 
@@ -70,10 +68,7 @@ public class CloudSdkAppEngineDevServer implements AppEngineDevServer {
       environmentVariables.put("JAVA_HOME", config.getJavaHomeDir());
     }
 
-    ImmutableMap<String, String> environment = config.getEnvironmentVariables();
-    if (environment != null) {
-      environmentVariables.putAll(environment);
-    }
+    environmentVariables.putAll(config.getEnvironmentVariables());
     
     arguments.addAll(DevAppServerArgs.get("host", config.getHost()));
     arguments.addAll(DevAppServerArgs.get("port", config.getPort()));

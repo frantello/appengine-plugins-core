@@ -23,7 +23,7 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * Plain Java bean implementation of {@link RunConfiguration}.
+ * Plain Java bean implementation of {@link RunConfiguration}. This class is not thread safe.
  */
 public class DefaultRunConfiguration implements RunConfiguration {
 
@@ -50,7 +50,7 @@ public class DefaultRunConfiguration implements RunConfiguration {
   private Boolean skipSdkUpdateCheck;
   private String defaultGcsBucketName;
   private String javaHomeDir;
-  private ImmutableMap<String, String> environment;
+  private ImmutableMap<String, String> environment = ImmutableMap.of();
 
   @Override
   public List<File> getAppYamls() {
@@ -268,8 +268,19 @@ public class DefaultRunConfiguration implements RunConfiguration {
    * Makes an immutable copy of the specified map. 
    * 
    * @param environment the environment variables to store.
+   * @throws NullPointerException if any key or value in environment is null
+   * @throws IllegalArgumentException if any key contains the NUL or = character 
    */
   public void setEnvironmentVariables(Map<String, String> environment) {
+    for (String key : environment.keySet()) {
+      if (key.indexOf('\0') > -1) {
+        throw new IllegalArgumentException("Environment variable name " + key + " contains a NUL");
+      }
+      if (key.indexOf('\0') > -1 || key.indexOf('=') > -1) {
+        throw new IllegalArgumentException("Environment variable name "
+            + key + " must not contain =.");
+      }
+    }
     this.environment = ImmutableMap.copyOf(environment);
   }
 }
