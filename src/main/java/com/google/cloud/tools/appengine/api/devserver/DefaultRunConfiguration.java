@@ -18,6 +18,9 @@ package com.google.cloud.tools.appengine.api.devserver;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
+
+import com.google.common.collect.ImmutableMap;
 
 /**
  * Plain Java bean implementation of {@link RunConfiguration}.
@@ -47,7 +50,7 @@ public class DefaultRunConfiguration implements RunConfiguration {
   private Boolean skipSdkUpdateCheck;
   private String defaultGcsBucketName;
   private String javaHomeDir;
-  private List<String> environment;
+  private ImmutableMap<String, String> environment;
 
   @Override
   public List<File> getAppYamls() {
@@ -257,11 +260,16 @@ public class DefaultRunConfiguration implements RunConfiguration {
   }
 
   @Override
-  public List<String> getEnvironmentVariables() {
+  public ImmutableMap<String, String> getEnvironmentVariables() {
     return environment;
   }
  
-  public void setEnvironmentVariables(List<String> environment) {
-    this.environment = environment;
+  /**
+   * Makes an immutable copy of the specified map. 
+   * 
+   * @param environment the environment variables to store.
+   */
+  public void setEnvironmentVariables(Map<String, String> environment) {
+    this.environment = ImmutableMap.copyOf(environment);
   }
 }

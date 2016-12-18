@@ -70,7 +70,7 @@ public class CloudSdkAppEngineDevServerTest {
     configuration.setPythonStartupScript("script.py");
     configuration.setPythonStartupArgs("arguments");
     configuration.setJvmFlags(ImmutableList.of("-Dflag1", "-Dflag2"));
-    configuration.setEnvironmentVariables(ImmutableList.of("foo=bar", "baz=back"));
+    configuration.setEnvironmentVariables(ImmutableMap.of("foo", "bar", "baz", "back"));
     configuration.setCustomEntrypoint("entrypoint");
     configuration.setRuntime("java");
     configuration.setAllowSkippedFiles(true);

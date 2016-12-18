@@ -24,6 +24,7 @@ import com.google.cloud.tools.appengine.cloudsdk.internal.args.DevAppServerArgs;
 import com.google.cloud.tools.appengine.cloudsdk.internal.process.ProcessRunnerException;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 import java.io.File;
@@ -64,17 +65,14 @@ public class CloudSdkAppEngineDevServer implements AppEngineDevServer {
       arguments.add(appYaml.toPath().toString());
     }
 
-    Map<String,String> environmentVariables = Maps.newHashMap();
+    Map<String, String> environmentVariables = Maps.newHashMap();
     if (!Strings.isNullOrEmpty(config.getJavaHomeDir())) {
       environmentVariables.put("JAVA_HOME", config.getJavaHomeDir());
     }
 
-    List<String> environment = config.getEnvironmentVariables();
+    ImmutableMap<String, String> environment = config.getEnvironmentVariables();
     if (environment != null) {
-      for (String nameValue : environment) {
-        String[] pair = nameValue.split("=");
-        environmentVariables.put(pair[0], pair[1]);
-      }
+      environmentVariables.putAll(environment);
     }
     
     arguments.addAll(DevAppServerArgs.get("host", config.getHost()));

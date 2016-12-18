@@ -17,6 +17,8 @@ package com.google.cloud.tools.appengine.api.devserver;
 import java.io.File;
 import java.util.List;
 
+import com.google.common.collect.ImmutableMap;
+
 /**
  * Configuration of running local Development Server.
  * {@link AppEngineDevServer#run(RunConfiguration)}.
@@ -54,11 +56,11 @@ public interface RunConfiguration {
   List<String> getJvmFlags();
 
   /**
-   * Return a list of environment variable strings in the form name=value.
+   * Return an immutable map of environment variable strings.
    * 
-   * @return the environment variables in the form name=value
+   * @return the environment variables
    */
-  List<String> getEnvironmentVariables();
+  ImmutableMap<String, String> getEnvironmentVariables();
 
   String getCustomEntrypoint();
 
